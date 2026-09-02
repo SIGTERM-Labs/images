@@ -16,6 +16,15 @@ RUN apk add --no-cache ansible aws-cli bash coreutils curl curl-dev git github-c
     apk add --no-cache python3 py-pip py-jmespath && \
     apk add --no-cache yq --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community && \
     pip install --no-cache-dir --break-system-packages jinjanator && \
+    ARCH="$(apk --print-arch)" && \
+    case "$ARCH" in \
+      x86_64) TALOS_ARCH=amd64 ;; \
+      aarch64) TALOS_ARCH=arm64 ;; \
+      *) echo "Unsupported architecture: $ARCH" >&2; exit 1 ;; \
+    esac && \
+    wget -qO /bin/talosctl \
+      "https://github.com/siderolabs/talos/releases/latest/download/talosctl-linux-${TALOS_ARCH}" && \
+    chmod +x /bin/talosctl && \
     packer plugins install github.com/hashicorp/amazon && \
     packer plugins install github.com/hashicorp/ansible && \
     packer plugins install github.com/hashicorp/proxmox
