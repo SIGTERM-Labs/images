@@ -2,7 +2,8 @@ FROM registry.gitlab.com/gitlab-org/terraform-images/stable:latest AS gitlab-ter
 FROM registry.gitlab.com/cmmarslender/kubectl-helm:v4 AS kubectl-helm
 FROM hashicorp/packer:latest AS packer
 FROM hashicorp/terraform:latest AS terraform
-FROM alpine:latest
+FROM hashicorp/vault:latest AS vault
+FROM alpine:latest AS iac
 
 ENV PACKER_PLUGIN_PATH="/packer-plugins"
 ENV PYENV_ROOT=/root/.pyenv
@@ -28,3 +29,7 @@ RUN apk add --no-cache ansible aws-cli bash coreutils curl curl-dev git github-c
     packer plugins install github.com/hashicorp/amazon && \
     packer plugins install github.com/hashicorp/ansible && \
     packer plugins install github.com/hashicorp/proxmox
+
+FROM iac AS iac-vault
+
+COPY --from=vault /bin/vault /bin/

@@ -61,7 +61,35 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: ./iac
+          target: iac
           platforms: "linux/amd64,linux/arm64"
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Docker meta (vault)
+        id: meta-vault
+        uses: docker/metadata-action@v6
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}/iac
+          flavor: |
+            latest=auto
+            prefix=
+            suffix=-vault
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}}
+            type=sha,format=long
+
+      - name: Build Docker Container (vault)
+        uses: docker/build-push-action@v7
+        with:
+          context: ./iac
+          target: iac-vault
+          platforms: "linux/amd64,linux/arm64"
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta-vault.outputs.tags }}
+          labels: ${{ steps.meta-vault.outputs.labels }}
