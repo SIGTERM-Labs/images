@@ -12,13 +12,10 @@ COPY --from=packer /bin/packer /bin/
 COPY --from=terraform /bin/terraform /bin/
 COPY --from=kubectl-helm /usr/local/bin/kubectl /bin/
 COPY --from=gitlab-terraform /usr/bin/gitlab-terraform /bin/gitlab-terraform
-RUN apk add --no-cache ansible aws-cli bash build-base bzip2-dev coreutils curl curl-dev git github-cli git go gpg gpg-agent idn2-utils jq libffi-dev make mysql-client netcat-openbsd openssh-client openssh-keygen openssl openssl-dev readline-dev rsync sudo sqlite-dev tar tk-dev wget xorriso xz-dev zlib-dev && \
+RUN apk add --no-cache ansible aws-cli bash coreutils curl curl-dev git github-cli git go gpg gpg-agent idn2-utils jq make mysql-client netcat-openbsd openssh-client openssh-keygen openssl rsync sudo tar wget xorriso && \
+    apk add --no-cache python3 py-pip py-jmespath && \
     apk add --no-cache yq --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community && \
-    git clone https://github.com/pyenv/pyenv.git ~/.pyenv && \
-    pyenv install 3.11 && \
-    pyenv global 3.11 && \
-    pip install --upgrade pip && \
-    pip install --no-cache-dir j2cli jmespath && \
+    pip install --no-cache-dir --break-system-packages jinjanator && \
     packer plugins install github.com/hashicorp/amazon && \
     packer plugins install github.com/hashicorp/ansible && \
     packer plugins install github.com/hashicorp/proxmox
