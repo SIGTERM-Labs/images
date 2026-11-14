@@ -15,6 +15,9 @@ on:
   schedule:
     - cron: '0 9 * * 1'
 
+env:
+  HELM_VERSION: "v4.3.2"
+
 permissions:
   id-token: write
   contents: read
@@ -63,6 +66,8 @@ jobs:
           context: ./iac
           target: iac
           platforms: "linux/amd64,linux/arm64"
+          build-args: |
+            HELM_VERSION=${{ env.HELM_VERSION }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -90,6 +95,8 @@ jobs:
           context: ./iac
           target: iac-vault
           platforms: "linux/amd64,linux/arm64"
+          build-args: |
+            HELM_VERSION=${{ env.HELM_VERSION }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta-vault.outputs.tags }}
           labels: ${{ steps.meta-vault.outputs.labels }}
