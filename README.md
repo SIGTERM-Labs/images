@@ -15,7 +15,7 @@ building clusters. It ships:
 
 - Provisioning: `terraform`, `gitlab-terraform`, `packer` (with the `amazon`,
   `ansible` and `proxmox` plugins baked in), `ansible`, `talosctl`
-- Cloud and cluster CLIs: `aws-cli`, `kubectl`, `cilium`
+- Cloud and cluster CLIs: `aws-cli`, `kubectl`, `helm` (v4), `cilium`
 - Templating and parsing: `jinjanate`, `jq`, `yq`, `python3` with `jmespath`
 - General tooling: `bash`, `coreutils`, `curl`, `git`, `github-cli`, `go`, `gpg`,
   `make`, `mysql-client`, `netcat-openbsd`, `openssh-client`, `openssl`, `rsync`,

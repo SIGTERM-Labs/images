@@ -5,6 +5,7 @@ FROM hashicorp/packer:latest AS packer
 FROM hashicorp/terraform:latest AS terraform
 FROM hashicorp/vault:latest AS vault
 FROM alpine:latest AS iac
+ARG HELM_VERSION
 
 ENV PACKER_PLUGIN_PATH="/packer-plugins"
 ENV PYENV_ROOT=/root/.pyenv
@@ -22,6 +23,9 @@ ARG TARGETARCH
 RUN apk add --no-cache ansible aws-cli bash coreutils curl curl-dev git github-cli go gpg gpg-agent idn2-utils jq make mysql-client netcat-openbsd openssh-client openssh-keygen openssl rsync sudo tar wget xorriso && \
     apk add --no-cache python3 py-pip py-jmespath && \
     pip install --no-cache-dir --break-system-packages jinjanator
+
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 && \
+    bash get_helm.sh --version $HELM_VERSION
 
 RUN curl -fsSLo /bin/talosctl "https://github.com/siderolabs/talos/releases/latest/download/talosctl-linux-${TARGETARCH}" && \
     chmod +x /bin/talosctl
