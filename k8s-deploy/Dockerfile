@@ -2,19 +2,11 @@ FROM hashicorp/vault:latest AS vault
 FROM ghcr.io/helmfile/helmfile:latest AS helmfile
 FROM registry.k8s.io/kubectl:v1.37.2 AS kubectl
 FROM mikefarah/yq:4 AS yq
-
-FROM golang:alpine AS gotools
-ENV CGO_ENABLED=0
-RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest && \
-    go install github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest && \
-    go install github.com/brancz/gojsontoyaml@latest
-
 FROM alpine:latest AS k8s-deploy
 ARG HELM_VERSION
 
 COPY --from=kubectl /bin/kubectl /bin/
 COPY --from=helmfile /usr/local/bin/helmfile /bin/
-COPY --from=gotools /go/bin/ /usr/local/bin/
 COPY --from=yq /usr/bin/yq /usr/bin/
 
 RUN apk add --no-cache bash curl git jq openssl openssh-client py3-pip python3 && \

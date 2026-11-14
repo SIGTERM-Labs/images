@@ -29,7 +29,7 @@ This image is for deploying to Kubernetes in CI jobs. It holds only what a
 deploy needs, so it stays small. It ships:
 
 - Kubernetes: `kubectl`, `helm` (v4), `helmfile`
-- Templating and parsing: `jsonnet`, `jb`, `gojsontoyaml`, `jinjanate`, `jq`, `yq`
+- Templating and parsing: `jinjanate`, `jq`, `yq`
 - General tooling: `bash`, `curl`, `git`, `openssh-client`, `openssl`, `python3`
 
 It is published to `ghcr.io/SIGTERM-Labs/images/k8s-deploy`.
