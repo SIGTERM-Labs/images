@@ -16,7 +16,7 @@ on:
     - cron: '0 9 * * 1'
 
 env:
-  HELM_VERSION: v4.3.2
+  HELM_VERSION: "v4.3.2"
 
 permissions:
   id-token: write
