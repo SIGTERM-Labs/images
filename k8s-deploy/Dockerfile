@@ -1,6 +1,6 @@
 FROM hashicorp/vault:latest AS vault
 FROM ghcr.io/helmfile/helmfile:latest AS helmfile
-FROM registry.k8s.io/kubectl:v1.37.2 AS kubectl
+FROM registry.k8s.io/kubectl:v1.37.3 AS kubectl
 FROM mikefarah/yq:4 AS yq
 FROM alpine:latest AS k8s-deploy
 ARG HELM_VERSION

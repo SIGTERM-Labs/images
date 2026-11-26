@@ -1,5 +1,5 @@
 FROM registry.gitlab.com/gitlab-org/terraform-images/stable:latest AS gitlab-terraform
-FROM registry.k8s.io/kubectl:v1.37.2 AS kubectl
+FROM registry.k8s.io/kubectl:v1.37.3 AS kubectl
 FROM mikefarah/yq:4 AS yq
 FROM hashicorp/packer:latest AS packer
 FROM hashicorp/terraform:latest AS terraform
